@@ -9,5 +9,4 @@ jobs:
     steps:
       - checkout
       - run: echo 'hello world'
-      - run: npm install
-      - run: ls -ahl
+      - run: ./script/install_lambdas

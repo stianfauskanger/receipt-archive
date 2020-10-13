@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+PROJECT_DIRECTORY=$(pwd)
+
+cd "${PROJECT_DIRECTORY}lambdas/test-lambda"
+npm install
+ls -ahl
