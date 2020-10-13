@@ -9,4 +9,5 @@ jobs:
     steps:
       - checkout
       - run: echo 'hello world'
+      - run: chmod +x ./script/install_lambdas
       - run: ./script/install_lambdas
