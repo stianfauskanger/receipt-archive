@@ -6,18 +6,24 @@ jobs:
       - checkout
       - run: chmod +x ./script/install_lambdas
       - run: ./script/install_lambdas
-      - store_artifacts:
-          path: /tmp/zipped_lambdas
+      - persist_to_workspace:
+          root: /tmp/persist
+          paths:
+            - zipped_lambdas
   deploy:
     docker:
       - image: 'circleci/node:latest'
     steps:
       - checkout
-      - run: ls -ahl /tmp/zipped_lambdas
+      - attach_workspace:
+          at: /tmp/persist
+      - run: ls -ahl /tmp/persist/zipped_lambdas
 
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
       - build
-      - deploy
+      - deploy:
+          requires:
+            - build
