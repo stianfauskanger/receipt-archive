@@ -1,14 +1,23 @@
-version: 2.1
 jobs:
   build:
     docker:
       - image: 'circleci/node:latest'
-#        auth:
-#          username: mydockerhub-user
-#          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run: chmod +x ./script/install_lambdas
       - run: ./script/install_lambdas
       - store_artifacts:
           path: /tmp/zipped_lambdas
+  deploy:
+    docker:
+      - image: 'circleci/node:latest'
+    steps:
+      - checkout
+      - run: ls -ahl /tmp/zipped_lambdas
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - deploy
