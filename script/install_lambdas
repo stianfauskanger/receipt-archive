@@ -5,6 +5,15 @@ echo "version = $(git describe --tags --always)"
 
 PROJECT_DIRECTORY=$(pwd)
 
-cd "${PROJECT_DIRECTORY}/lambdas/test-lambda"
-npm ci
-ls -ahl
+rm -fR /tmp/zipped_lambdas
+mkdir -p /tmp/zipped_lambdas
+
+build_lambda() {
+    echo "Building lambda '${1}'"
+    cd "${PROJECT_DIRECTORY}/lambdas/${1}"
+    npm ci
+    zip -r /tmp/zipped_lambdas/${1}.zip *
+}
+
+build_lambda "test-lambda"
+ls -ahl /tmp/zipped_lambdas

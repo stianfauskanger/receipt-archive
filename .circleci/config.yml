@@ -8,6 +8,7 @@ jobs:
 #          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - run: echo 'hello world'
       - run: chmod +x ./script/install_lambdas
       - run: ./script/install_lambdas
+      - store_artifacts:
+          path: /tmp/zipped_lambdas
