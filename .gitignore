@@ -1,0 +1,3 @@
+/lambdas/**/node_modules/
+.idea/
+/terraform/.terraform/
