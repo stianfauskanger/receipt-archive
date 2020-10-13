@@ -16,4 +16,6 @@ build_lambda() {
 }
 
 build_lambda "test-lambda"
+build_lambda "test-lambda2"
+
 ls -ahl /tmp/persist/zipped_lambdas

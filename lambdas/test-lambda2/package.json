@@ -1,0 +1,14 @@
+{
+  "name": "test-lambda2",
+  "version": "0.0.1",
+  "description": "Test function for AWS Lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stian Fauskanger",
+  "dependencies": {},
+  "devDependencies": {
+    "aws-sdk": "^2.771.0"
+  }
+}
