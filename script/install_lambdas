@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+set -e
+echo "version = $(git describe --tags --always)"
+
 PROJECT_DIRECTORY=$(pwd)
 
-cd "${PROJECT_DIRECTORY}lambdas/test-lambda"
+cd "${PROJECT_DIRECTORY}/lambdas/test-lambda"
 npm install
 ls -ahl
