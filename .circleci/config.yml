@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@4.1.0
   aws-s3: circleci/aws-s3@2.0.0
+  terraform: circleci/terraform@1.0.2
 
 jobs:
   build:
@@ -27,6 +28,23 @@ jobs:
       - aws-s3/sync:
           from: /tmp/persist/zipped_lambdas
           to: 's3://receipt-archive-src/zipped_lambdas'
+  terraform:
+    executor: terraform/default
+    steps:
+      - checkout
+      - terraform/init:
+          path: .
+      - terraform/validate:
+          path: .
+      - terraform/fmt:
+          path: .
+      - terraform/plan:
+          path: .
+      - terraform/apply:
+          path: .
+#      - terraform/destroy:
+#          path: .
+    working_directory: terraform
 
 workflows:
   build_and_deploy:
@@ -35,3 +53,6 @@ workflows:
       - upload-lambda-src-2-s3:
           requires:
             - build
+      - terraform:
+          requires:
+            - upload-lambda-src-2-s3
