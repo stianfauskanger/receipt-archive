@@ -32,6 +32,6 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - deploy:
+      - upload-lambda-src-2-s3:
           requires:
             - build
