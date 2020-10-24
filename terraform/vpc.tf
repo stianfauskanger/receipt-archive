@@ -1,11 +1,11 @@
 resource "aws_vpc" "main" {
-  cidr_block         = "10.0.0.0/16"
-  instance_tenancy   = "default"
-  enable_dns_support = true
+  cidr_block           = "10.0.0.0/16"
+  instance_tenancy     = "default"
+  enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
-    Name = "VPC for receipt-archive"
+    Name            = "VPC for receipt-archive"
     receipt-archive = 1
   }
 }
@@ -14,40 +14,40 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "Internet Gateway"
+    Name            = "Internet Gateway"
     receipt-archive = 1
   }
 }
 
 resource "aws_subnet" "public_subnet_az_a" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.0.0/20"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.0.0/20"
   availability_zone = var.availability_zone_a
 
   tags = {
-    Name = "Public Subnet"
+    Name            = "Public Subnet"
     receipt-archive = 1
   }
 }
 
 resource "aws_subnet" "public_subnet_az_b" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.16.0/20"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.16.0/20"
   availability_zone = var.availability_zone_b
 
   tags = {
-    Name = "Public Subnet"
+    Name            = "Public Subnet"
     receipt-archive = 1
   }
 }
 
 resource "aws_subnet" "public_subnet_az_c" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.32.0/20"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.32.0/20"
   availability_zone = var.availability_zone_c
 
   tags = {
-    Name = "Public Subnet"
+    Name            = "Public Subnet"
     receipt-archive = 1
   }
 }
@@ -61,7 +61,7 @@ resource "aws_route_table" "main" {
   }
 
   tags = {
-    Name = "VPC Route Table"
+    Name            = "VPC Route Table"
     receipt-archive = 1
   }
 }
