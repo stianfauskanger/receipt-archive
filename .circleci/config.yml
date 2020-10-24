@@ -33,18 +33,17 @@ jobs:
     steps:
       - checkout
       - terraform/init:
-          path: .
+          path: terraform
       - terraform/validate:
-          path: .
+          path: terraform
       - terraform/fmt:
-          path: .
+          path: terraform
       - terraform/plan:
-          path: .
+          path: terraform
       - terraform/apply:
-          path: .
+          path: terraform
 #      - terraform/destroy:
-#          path: .
-    working_directory: terraform
+#          path: terraform
 
 workflows:
   build_and_deploy:
