@@ -43,3 +43,12 @@ resource "aws_iam_role_policy_attachment" "msk_updater_cw_lambda_logs_attachment
   role       = aws_iam_role.iam_role_upload_photo_lambda.name
   policy_arn = aws_iam_policy.lambda_cw_logs.arn
 }
+
+data "aws_iam_policy" "vpc_access_aws_managed_policy" {
+  arn         = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "vpc_access_updater_lambda_msk_attachment" {
+  role       = aws_iam_role.iam_role_upload_photo_lambda.name
+  policy_arn = data.aws_iam_policy.vpc_access_aws_managed_policy.arn
+}
