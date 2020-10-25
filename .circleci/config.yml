@@ -11,7 +11,8 @@ jobs:
       - image: 'node:latest'
     steps:
       - checkout
-      - run: apt-get install xxd
+      - run: apt-get update
+      - run: apt-get -y install xxd
       - run: chmod +x ./script/install_lambdas
       - run: ./script/install_lambdas
       - persist_to_workspace:
