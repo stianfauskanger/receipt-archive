@@ -25,3 +25,5 @@ variable region { default = "eu-north-1" }
 variable availability_zone_a { default = "eu-north-1a" }
 variable availability_zone_b { default = "eu-north-1b" }
 variable availability_zone_c { default = "eu-north-1c" }
+variable lambdas_s3_bucket { default = "receipt-archive-src" }
+variable lambdas_s3_key { default = "zipped_lambdas" }

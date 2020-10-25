@@ -42,8 +42,6 @@ jobs:
           path: terraform
       - terraform/apply:
           path: terraform
-#      - terraform/destroy:
-#          path: terraform
 
 workflows:
   build_and_deploy:

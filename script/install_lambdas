@@ -12,10 +12,13 @@ build_lambda() {
     echo "Building lambda '${1}'"
     cd "${PROJECT_DIRECTORY}/lambdas/${1}"
     npm ci
-    zip -r /tmp/persist/zipped_lambdas/${1}.zip *
+    zip -r "/tmp/persist/zipped_lambdas/${1}.zip" *
+    sha256sum "/tmp/persist/zipped_lambdas/${1}.zip" | cut -d " " -f 1 | xxd -r -p | base64 > "/tmp/persist/zipped_lambdas/${1}.zip.base64sha256"
 }
 
-build_lambda "test-lambda"
-build_lambda "test-lambda2"
+for DIR in lambdas/*/ ; do
+    LAMBDA=$(basename "$DIR")
+    build_lambda "$LAMBDA"
+done
 
 ls -ahl /tmp/persist/zipped_lambdas
