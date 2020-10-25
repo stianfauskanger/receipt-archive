@@ -9,7 +9,7 @@ resource "aws_lambda_function" "upload-photo-lambda" {
 
   vpc_config {
     security_group_ids = [aws_vpc.main.default_security_group_id]
-    subnet_ids         = [aws_subnet.public_subnet_az_a, aws_subnet.public_subnet_az_b, aws_subnet.public_subnet_az_c]
+    subnet_ids         = [aws_subnet.public_subnet_az_a.id, aws_subnet.public_subnet_az_b.id, aws_subnet.public_subnet_az_c.id]
   }
 
   //  environment {
@@ -31,7 +31,7 @@ data "aws_s3_bucket_object" "upload_photo_lambda_src_zip" {
 
 data "aws_s3_bucket_object" "upload_photo_lambda_src_zip_sha" {
   bucket = var.lambdas_s3_bucket
-  key    = "${var.lambdas_s3_key}/upload-photo-lambda.zip.base64sha256"
+  key    = "${var.lambdas_s3_key}/upload-photo-lambda.zip.base64sha256.txt"
 }
 
 resource "aws_iam_role" "iam_role_upload_photo_lambda" {

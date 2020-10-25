@@ -13,7 +13,7 @@ build_lambda() {
     cd "${PROJECT_DIRECTORY}/lambdas/${1}"
     npm ci
     zip -r "/tmp/persist/zipped_lambdas/${1}.zip" *
-    sha256sum "/tmp/persist/zipped_lambdas/${1}.zip" | cut -d " " -f 1 | xxd -r -p | base64 > "/tmp/persist/zipped_lambdas/${1}.zip.base64sha256"
+    sha256sum "/tmp/persist/zipped_lambdas/${1}.zip" | cut -d " " -f 1 | xxd -r -p | base64 > "/tmp/persist/zipped_lambdas/${1}.zip.base64sha256.txt"
 }
 
 for DIR in lambdas/*/ ; do
