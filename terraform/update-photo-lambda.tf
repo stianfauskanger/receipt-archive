@@ -45,7 +45,7 @@ resource "aws_iam_role_policy_attachment" "msk_updater_cw_lambda_logs_attachment
 }
 
 data "aws_iam_policy" "vpc_access_aws_managed_policy" {
-  arn         = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
 resource "aws_iam_role_policy_attachment" "vpc_access_updater_lambda_msk_attachment" {
