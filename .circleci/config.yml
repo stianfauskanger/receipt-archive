@@ -8,9 +8,10 @@ orbs:
 jobs:
   build:
     docker:
-      - image: 'circleci/node:latest'
+      - image: 'node:latest'
     steps:
       - checkout
+      - run: apt-get install xxd
       - run: chmod +x ./script/install_lambdas
       - run: ./script/install_lambdas
       - persist_to_workspace:
@@ -18,8 +19,9 @@ jobs:
           paths:
             - zipped_lambdas
   upload-lambda-src-2-s3:
-    docker:
-      - image: 'circleci/node:latest'
+#    docker:
+#      - image: 'node:latest'
+    executor: aws-s3/default
     steps:
       - checkout
       - attach_workspace:
