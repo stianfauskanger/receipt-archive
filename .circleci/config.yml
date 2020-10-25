@@ -19,9 +19,8 @@ jobs:
           paths:
             - zipped_lambdas
   upload-lambda-src-2-s3:
-#    docker:
-#      - image: 'node:latest'
-    executor: aws-s3/default
+    docker:
+      - image: 'circleci/node:latest'
     steps:
       - checkout
       - attach_workspace:
