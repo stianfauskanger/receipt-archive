@@ -12,11 +12,11 @@ resource "aws_lambda_function" "generate_signed_upload_url_lambda" {
     subnet_ids         = [aws_subnet.public_subnet_az_a.id, aws_subnet.public_subnet_az_b.id, aws_subnet.public_subnet_az_c.id]
   }
 
-    environment {
-      variables = {
-        S3_PHOTO_INBOX_ID = aws_s3_bucket.photos_inbox.id
-      }
+  environment {
+    variables = {
+      S3_PHOTO_INBOX_ID = aws_s3_bucket.photos_inbox.id
     }
+  }
 
   tags = {
     Name            = "Lambda for generating an S3 pre-signed POST url"
@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "access_s3_policy_document" {
 }
 
 resource "aws_iam_policy" "access_s3_policy" {
-  name = "access_s3_policy"
+  name   = "access_s3_policy"
   policy = data.aws_iam_policy_document.access_s3_policy_document.json
 }
 

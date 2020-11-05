@@ -13,7 +13,7 @@ resource "aws_s3_bucket" "photos_inbox" {
   }
 
   lifecycle_rule {
-    enabled = true
+    enabled                                = true
     abort_incomplete_multipart_upload_days = 1
     expiration {
       days = 1
@@ -27,9 +27,9 @@ resource "aws_s3_bucket" "photos_inbox" {
 }
 
 resource "aws_s3_bucket_public_access_block" "example" {
-  bucket = aws_s3_bucket.photos_inbox.id
+  bucket                  = aws_s3_bucket.photos_inbox.id
   restrict_public_buckets = true
-  ignore_public_acls = true
-  block_public_acls   = true
-  block_public_policy = true
+  ignore_public_acls      = true
+  block_public_acls       = true
+  block_public_policy     = true
 }
