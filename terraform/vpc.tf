@@ -1,4 +1,4 @@
-resource "aws_vpc" "main" {
+resource "aws_vpc" "main_vpc" {
   cidr_block           = "10.0.0.0/16"
   instance_tenancy     = "default"
   enable_dns_support   = true
@@ -10,8 +10,8 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
+resource "aws_internet_gateway" "main_igw" {
+  vpc_id = aws_vpc.main_vpc.id
 
   tags = {
     Name            = "Internet Gateway for receipt-archive"
@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "main" {
 }
 
 resource "aws_subnet" "public_subnet_az_a" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.0.0/20"
   availability_zone = var.availability_zone_a
 
@@ -31,7 +31,7 @@ resource "aws_subnet" "public_subnet_az_a" {
 }
 
 resource "aws_subnet" "public_subnet_az_b" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.16.0/20"
   availability_zone = var.availability_zone_b
 
@@ -42,7 +42,7 @@ resource "aws_subnet" "public_subnet_az_b" {
 }
 
 resource "aws_subnet" "public_subnet_az_c" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.32.0/20"
   availability_zone = var.availability_zone_c
 
@@ -52,12 +52,12 @@ resource "aws_subnet" "public_subnet_az_c" {
   }
 }
 
-resource "aws_route_table" "main" {
-  vpc_id = aws_vpc.main.id
+resource "aws_route_table" "main_route_table" {
+  vpc_id = aws_vpc.main_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main.id
+    gateway_id = aws_internet_gateway.main_igw.id
   }
 
   tags = {
@@ -66,9 +66,9 @@ resource "aws_route_table" "main" {
   }
 }
 
-resource "aws_main_route_table_association" "a" {
-  vpc_id         = aws_vpc.main.id
-  route_table_id = aws_route_table.main.id
+resource "aws_main_route_table_association" "main_route_table_association" {
+  vpc_id         = aws_vpc.main_vpc.id
+  route_table_id = aws_route_table.main_route_table.id
 }
 
 //resource "aws_subnet" "private_subnet_az_a" {

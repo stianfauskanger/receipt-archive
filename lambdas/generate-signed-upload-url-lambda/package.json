@@ -1,7 +1,7 @@
 {
-  "name": "analyze-photo-lambda",
+  "name": "generate-signed-upload-url-lambda",
   "version": "0.0.1",
-  "description": "Send a photo to OCR for analysis",
+  "description": "Generated a presigned POST-url for AWS S3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "aws-sdk": "^2.778.0"
+    "aws-sdk": "^2.778.0",
+    "seedrandom": "^3.0.5"
   }
 }
