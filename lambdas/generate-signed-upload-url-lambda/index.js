@@ -10,7 +10,7 @@ AWS.config.update({region: awsRegion});
 const S3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 exports.handler = async (event) => {
-    // console.log('Event:', JSON.stringify(event, null, 2));
+    console.log('Event:', JSON.stringify(event, null, 2));
 
     const maxSizeMB = 20;
     const s3BucketName = process.env.S3_PHOTO_INBOX_ID;

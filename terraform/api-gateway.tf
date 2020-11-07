@@ -55,16 +55,18 @@ resource "aws_apigatewayv2_authorizer" "jwt_authorizer" {
   }
 }
 
-resource "aws_apigatewayv2_route" "example" {
+variable "get_upload_receipt_url_path" { default = "/get_upload_receipt_url" }
+
+resource "aws_apigatewayv2_route" "get_upload_receipt_url" {
   api_id               = aws_apigatewayv2_api.main_api_gateway.id
   authorizer_id        = aws_apigatewayv2_authorizer.jwt_authorizer.id
   authorization_type   = "JWT"
   authorization_scopes = ["https://kvittering.ludi.no/use"]
-  route_key            = "GET /get_upload_receipt_url"
+  route_key            = "GET ${var.get_upload_receipt_url_path}"
   target               = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
 
-resource "aws_apigatewayv2_stage" "example" {
+resource "aws_apigatewayv2_stage" "prod" {
   api_id      = aws_apigatewayv2_api.main_api_gateway.id
   name        = "prod"
   auto_deploy = true

@@ -69,3 +69,7 @@ resource "aws_iam_role_policy_attachment" "generate_signed_upload_url_lambda_s3_
   role       = aws_iam_role.iam_role_generate_signed_upload_url_lambda.name
   policy_arn = aws_iam_policy.access_s3_policy.arn
 }
+
+output "generate_signed_upload_url_endpoint" {
+  value = "${aws_apigatewayv2_stage.prod.invoke_url}${var.get_upload_receipt_url_path}"
+}
