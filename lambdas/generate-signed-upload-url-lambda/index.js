@@ -1,46 +1,52 @@
 const AWS = require('aws-sdk');
 const seedrandom = require('seedrandom');
+const moment = require("moment");
 
 const rng = seedrandom();
 
-// TODO: Get from ENV (and do the same for all other cases)
-AWS.config.update({region: 'eu-north-1'});
+const awsRegion = process.env.AWS_REGION;
+AWS.config.update({region: awsRegion});
 
 const S3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 exports.handler = async (event) => {
     // console.log('Event:', JSON.stringify(event, null, 2));
 
-    const maxSizeMB = 5;
+    const maxSizeMB = 20;
     const s3BucketName = process.env.S3_PHOTO_INBOX_ID;
     const userId = Buffer.from(event.requestContext.authorizer.jwt.claims.sub).toString('base64')
     let randomFilename = Math.floor(rng()*0xFFFF).toString(16);
     randomFilename += Math.floor(rng()*0xFFFF).toString(16);
     randomFilename += Math.floor(rng()*0xFFFF).toString(16);
     randomFilename += Math.floor(rng()*0xFFFF).toString(16);
+    const s3BucketKey = "/files/" + userId + "/" + randomFilename;
+    const expiration = moment().add(5, "minutes").toDate().toISOString();
+    const conditions = [
+        ["content-length-range", 0, maxSizeMB*1024*1024],
+        {"bucket": s3BucketName},
+        ["eq", "$key", s3BucketKey],
+        ["starts-with", "$Content-Type", "image/"],
+        ["starts-with", "$X-Amz-Meta-Original-Filename", ""],
+    ];
 
     const data = S3.createPresignedPost({
         Bucket: s3BucketName,
-        Fields: {
-            key: "/files/" + userId + "/" + randomFilename,
-        },
-        Conditions: [
-            ["content-length-range", 0, maxSizeMB*1024*1024],
-            // TODO: add "expires in 5 minutes" condition (and check if this is the latest to start or to finish upload
-            // TODO: add "" condition
-        ]
+        Fields: { key: s3BucketKey },
+        expiration: expiration,
+        Conditions: conditions,
     });
 
-    console.log("data", data);
-    console.log("json(data)", JSON.stringify(data, null, 2));
+    data.properties = {};
+    data.properties.expiration = expiration;
+    data.properties.conditions = conditions;
 
     return {
         statusCode: 200,
-        body: "OK",
+        body: data,
     };
 };
 
-exports.handler({
+const event = {
     "version": "2.0",
     "routeKey": "POST /test",
     "rawPath": "/prod/test",
@@ -100,4 +106,10 @@ exports.handler({
     },
     "body": "Q29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOwpDb250ZW50LVR5cGU6IHRleHQvcGxhaW4KCkhlbGxvIHdvcmxkCg==",
     "isBase64Encoded": true
+};
+const promise = exports.handler(event);
+promise.then((response) => {
+    console.log(JSON.stringify(response, null, 2));
+}).catch(err => {
+    console.error(err);
 });
