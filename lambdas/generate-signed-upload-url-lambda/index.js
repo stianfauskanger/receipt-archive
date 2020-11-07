@@ -41,12 +41,14 @@ exports.handler = async (event) => {
         data.properties.expiration = expiration;
         data.properties.conditions = conditions;
 
-        const ret = {
+        console.log("RET:", {
+            statusCode: 200,
+            body: JSON.stringify(data, null, 2),
+        });
+        return {
             statusCode: 200,
             body: JSON.stringify(data),
         };
-        console.log("RET:", ret);
-        return ret;
     }
     catch (err) {
         console.error("Error in index.js::exports.handler():", err);
