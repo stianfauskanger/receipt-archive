@@ -41,16 +41,31 @@ exports.handler = async (event) => {
         data.properties.expiration = expiration;
         data.properties.conditions = conditions;
 
-        console.log("RET:", {
-            statusCode: 200,
-            body: JSON.stringify(data, null, 2),
-        });
-        return {
-            statusCode: 200,
-            body: JSON.stringify(data),
+        const response = {
+            // "cookies" : ["cookie1", "cookie2"],
+            "isBase64Encoded": false,
+            "statusCode": 200,
+            "headers": { "Content-Type": "application/json" },
+            "body": JSON.stringify(data)
         };
+
+        console.log("RESPONSE:", () => {
+            const tmp = response;
+            tmp.body = data;
+            return JSON.stringify(response, null, 2);
+        });
+        return response;
     }
     catch (err) {
         console.error("Error in index.js::exports.handler():", err);
+        return {
+            // "cookies" : ["cookie1", "cookie2"],
+            "isBase64Encoded": false,
+            "statusCode": 500,
+            "headers": { "Content-Type": "application/json" },
+            "body": JSON.stringify({
+                error: "Error in index.js::exports.handler()"
+            })
+        };
     }
 };
