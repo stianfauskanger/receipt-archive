@@ -10,7 +10,7 @@ AWS.config.update({region: awsRegion});
 const S3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 exports.handler = async (event) => {
-    console.log('Event:', JSON.stringify(event, null, 2));
+    console.log('EVENT:', JSON.stringify(event, null, 2));
 
     try {
         const maxSizeMB = 20;
@@ -48,11 +48,10 @@ exports.handler = async (event) => {
             "headers": { "Content-Type": "application/json" },
             "body": JSON.stringify(data)
         };
-
         console.log("RESPONSE:", () => {
             const tmp = response;
             tmp.body = data;
-            return JSON.stringify(response, null, 2);
+            return JSON.stringify(tmp, null, 2);
         });
         return response;
     }

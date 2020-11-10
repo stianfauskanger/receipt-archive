@@ -1,0 +1,17 @@
+{
+  "name": "process-photo-lambda",
+  "version": "0.0.1",
+  "description": "Lmbda function to start processing a new photo. This will send the photo to OCR analysis, resize and rotate the photo, store the photo in S3, and store it's metadata and OCR data in DynamoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stian Fauskanger",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "aws-sdk": "^2.788.0",
+    "seedrandom": "^3.0.5",
+    "moment": "^2.29.1"
+  }
+}
