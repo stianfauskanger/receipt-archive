@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "aws-sdk": "^2.788.0",
+    "aws-sdk": "^2.796.0",
     "moment": "^2.29.1",
     "seedrandom": "^3.0.5"
   }
