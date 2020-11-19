@@ -49,9 +49,8 @@ exports.handler = async (event) => {
             "body": JSON.stringify(data)
         };
 
-        const tmp = response;
-        tmp.body = data;
-        console.log("RESPONSE:", JSON.stringify(tmp, null, 2));
+        console.log("RESPONSE:", JSON.stringify(response, null, 2));
+        console.log("DATA:", JSON.stringify(data, null, 2));
         return response;
     }
     catch (err) {

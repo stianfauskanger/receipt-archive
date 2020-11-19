@@ -53,7 +53,7 @@ resource "aws_iam_role_policy_attachment" "generate_signed_upload_url_lambda_vpc
 data "aws_iam_policy_document" "generate_signed_upload_url_lambda_access_s3_policy_document" {
   version = "2012-10-17"
   statement {
-    sid = "S3AllowAll"
+    sid    = "S3AllowAll"
     effect = "Allow"
     actions = [
       "s3:*"
