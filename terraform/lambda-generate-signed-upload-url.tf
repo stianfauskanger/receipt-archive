@@ -49,25 +49,30 @@ resource "aws_iam_role_policy_attachment" "generate_signed_upload_url_lambda_vpc
   policy_arn = data.aws_iam_policy.lambda_vpc_access_managed_policy.arn
 }
 
-data "aws_iam_policy_document" "access_s3_policy_document" {
+// TODO: restrict this to what is needed
+data "aws_iam_policy_document" "generate_signed_upload_url_lambda_access_s3_policy_document" {
   version = "2012-10-17"
   statement {
+    sid = "S3AllowAll"
     effect = "Allow"
     actions = [
       "s3:*"
     ]
-    resources = ["arn:aws:s3:::*"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.photos_inbox.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.photos_inbox.bucket}/*"
+    ]
   }
 }
 
-resource "aws_iam_policy" "access_s3_policy" {
-  name   = "access_s3_policy"
-  policy = data.aws_iam_policy_document.access_s3_policy_document.json
+resource "aws_iam_policy" "generate_signed_upload_url_lambda_access_s3_policy" {
+  name   = "generate_signed_upload_url_lambda_access_s3_policy"
+  policy = data.aws_iam_policy_document.generate_signed_upload_url_lambda_access_s3_policy_document.json
 }
 
 resource "aws_iam_role_policy_attachment" "generate_signed_upload_url_lambda_s3_access_policy_attachment" {
   role       = aws_iam_role.iam_role_generate_signed_upload_url_lambda.name
-  policy_arn = aws_iam_policy.access_s3_policy.arn
+  policy_arn = aws_iam_policy.generate_signed_upload_url_lambda_access_s3_policy.arn
 }
 
 output "generate_signed_upload_url_endpoint" {

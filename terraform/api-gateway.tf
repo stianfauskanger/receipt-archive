@@ -1,7 +1,6 @@
 resource "aws_apigatewayv2_api" "main_api_gateway" {
   name          = "main_api_gateway"
   protocol_type = "HTTP"
-  //  target        = aws_lambda_function.upload_photo_lambda.arn
 }
 
 resource "aws_security_group" "main_api_gateway_security_group" {

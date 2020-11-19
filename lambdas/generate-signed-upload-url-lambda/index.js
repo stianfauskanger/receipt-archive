@@ -30,7 +30,7 @@ exports.handler = async (event) => {
             ["starts-with", "$X-Amz-Meta-Original-Filename", ""],
         ];
 
-        const data = S3.createPresignedPost({
+        const data = await S3.createPresignedPost({
             Bucket: s3BucketName,
             Fields: { key: s3BucketKey },
             expiration: expiration,
@@ -48,11 +48,10 @@ exports.handler = async (event) => {
             "headers": { "Content-Type": "application/json" },
             "body": JSON.stringify(data)
         };
-        console.log("RESPONSE:", () => {
-            const tmp = response;
-            tmp.body = data;
-            return JSON.stringify(tmp, null, 2);
-        });
+
+        const tmp = response;
+        tmp.body = data;
+        console.log("RESPONSE:", JSON.stringify(tmp, null, 2));
         return response;
     }
     catch (err) {
