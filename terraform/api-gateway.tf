@@ -69,4 +69,5 @@ resource "aws_apigatewayv2_stage" "prod" {
   api_id      = aws_apigatewayv2_api.main_api_gateway.id
   name        = "prod"
   auto_deploy = true
+  depends_on = [aws_apigatewayv2_route.get_upload_receipt_url]
 }

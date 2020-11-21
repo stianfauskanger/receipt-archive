@@ -8,8 +8,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "receipt-archive-src"
-    key            = "terraform/state"
+    bucket         = "receipt-archive-tf-state"
+    key            = "terraform.state"
     dynamodb_table = "terraform-remote-state"
     region         = "eu-north-1"
   }
