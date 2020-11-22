@@ -63,7 +63,7 @@ const event = {
 };
 const promise = handler(event);
 promise.then((response) => {
-    console.log(JSON.stringify(response, null, 2));
+    console.debug(JSON.stringify(response, null, 2));
 }).catch(err => {
     console.error(err);
 });

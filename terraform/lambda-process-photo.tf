@@ -71,3 +71,21 @@ resource "aws_iam_role_policy_attachment" "process_photo_lambda_s3_access_policy
   policy_arn = aws_iam_policy.process_photo_lambda_access_s3_policy.arn
 }
 
+resource "aws_s3_bucket_notification" "new_photo_uploaded_lambda_trigger" {
+  bucket = aws_s3_bucket.photos_inbox.bucket
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.process_photo_lambda.arn
+    events              = ["s3:ObjectCreated:*"]
+  }
+
+  depends_on = [aws_lambda_permission.new_photo_uploaded_s3_invoke_lambda_permission]
+}
+
+resource "aws_lambda_permission" "new_photo_uploaded_s3_invoke_lambda_permission" {
+  statement_id  = "AllowS3InvokeLambda"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.process_photo_lambda.arn
+  principal = "s3.amazonaws.com"
+  source_arn = aws_s3_bucket.photos_inbox.arn
+}
