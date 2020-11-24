@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk');
 const seedrandom = require('seedrandom');
-const moment = require("moment");
 
 const rng = seedrandom();
 
@@ -21,7 +20,7 @@ exports.handler = async (event) => {
         randomFilename += Math.floor(rng()*0xFFFF).toString(16);
         randomFilename += Math.floor(rng()*0xFFFF).toString(16);
         const s3BucketKey = "/files/" + userId + "/" + randomFilename;
-        const expiration = moment().add(5, "minutes").toDate().toISOString();
+        const expireInMinutes = 5;
         const conditions = [
             ["content-length-range", 0, maxSizeMB*1024*1024],
             {"bucket": s3BucketName},
@@ -33,13 +32,9 @@ exports.handler = async (event) => {
         const data = await S3.createPresignedPost({
             Bucket: s3BucketName,
             Fields: { key: s3BucketKey },
-            expiration: expiration,
+            Expires: 60 * expireInMinutes,
             Conditions: conditions,
         });
-
-        data.properties = {};
-        data.properties.expiration = expiration;
-        data.properties.conditions = conditions;
 
         const response = {
             // "cookies" : ["cookie1", "cookie2"],

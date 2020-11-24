@@ -9,8 +9,7 @@
   "author": "Stian Fauskanger",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.796.0",
-    "moment": "^2.29.1",
+    "aws-sdk": "^2.798.0",
     "seedrandom": "^3.0.5"
   },
   "devDependencies": {}
